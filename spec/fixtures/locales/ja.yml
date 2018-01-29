@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    attributes:
+      user/sex:
+        man: 男性
+        woman: 女性
+        test:

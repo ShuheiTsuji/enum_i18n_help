@@ -1,0 +1,7 @@
+en:
+  activerecord:
+    attributes:
+      user/sex:
+        man: Man
+        woman: Woman
+        test:
