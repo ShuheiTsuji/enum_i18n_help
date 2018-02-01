@@ -32,5 +32,3 @@ module EnumI18nHelp
     end
   end
 end
-
-ActiveRecord::Base.extend EnumI18nHelp::EnumI18n
