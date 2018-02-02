@@ -25,7 +25,7 @@ module EnumI18nHelp
 
         klass.instance_eval <<-METHOD, __FILE__, __LINE__ + 1
         def #{attr_name}_options
-          #{attr_value_hash}.merge((I18n.t "activerecord.attributes.#{klass.name.underscore}/#{attr_name}").reject{ |_, v| v.nil? }).invert.__send__(:to_a)
+          #{attr_value_hash}.merge((I18n.t "activerecord.attributes.#{klass.name.underscore}/#{attr_name}").reject{ |_, v| v.nil? }).invert.to_a
         end
         METHOD
       end
