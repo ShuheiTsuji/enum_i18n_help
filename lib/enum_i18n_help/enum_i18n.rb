@@ -21,11 +21,11 @@ module EnumI18nHelp
       end
 
       def define_options_method!(klass, attr_name, attr_value)
-        attr_value_hash = attr_value.map { |k, _| [k, k.to_s.humanize] }.to_h
+        attr_value_hash = attr_value.keys.map { |key| [key, key.to_s.humanize] }.to_h
 
         klass.instance_eval <<-METHOD, __FILE__, __LINE__ + 1
         def #{attr_name}_options
-          #{attr_value_hash}.merge((I18n.t "activerecord.attributes.#{klass.name.underscore}/#{attr_name}").reject{ |_, v| v == nil }).invert.__send__(:to_a)
+          #{attr_value_hash}.merge((I18n.t "activerecord.attributes.#{klass.name.underscore}/#{attr_name}").reject{ |_, v| v.nil? }).invert.to_a
         end
         METHOD
       end
