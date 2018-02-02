@@ -1,6 +1,10 @@
-require "enum_i18n_help/enum_i18n"
 require "enum_i18n_help/version"
-require "enum_i18n_help/railtie"
+require "active_support/lazy_load_hooks"
+
+ActiveSupport.on_load :active_record do
+  require "enum_i18n_help/enum_i18n"
+  ActiveRecord::Base.extend EnumI18nHelp::EnumI18n
+end
 
 module EnumI18nHelp
   # Your code goes here...
