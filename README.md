@@ -1,8 +1,8 @@
 # EnumI18nHelp
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/enum_i18n_help`. To experiment with that code, run `bin/console` for an interactive prompt.
+Help ActiveRecord::Enum feature to work with I18n.
 
-TODO: Delete this and the text above, and describe your gem
+added a new Test::Unit to the existing EnumHelp gem and changed the namespace of I18n.
 
 ## Installation
 
@@ -22,22 +22,65 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+model
 
-## Development
+```ruby
+class User < ActiveRecord::Base
+  enum role: { manager: 1, member: 2 }
+end
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+I18n
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+ja:
+  activerecord:
+    attributes:
+      user/role:
+        manager: 管理者
+        member: 一般
+```
+
+```ruby
+en:
+  activerecord:
+    attributes:
+      user/role:
+        manager: Manager
+        member: Member
+```
+
+### enum_column_text
+
+```ruby
+user = User.first
+user.role
+=> "manager"
+user.role_text
+=> "管理者"
+```
+
+change locale
+
+```ruby
+I18n.locale = :en
+user.role
+=> "manager"
+user.role_text
+=> "Manager"
+```
+
+### enum_column_options
+
+```ruby
+User.role_options
+=> [["管理者", :manager], ["一般", :member]]
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/enum_i18n_help. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the EnumI18nHelp project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/enum_i18n_help/blob/master/CODE_OF_CONDUCT.md).
+1. Fork it ( https://github.com/ShuheiTsuji/enum_i18n_help )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
