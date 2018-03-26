@@ -2,9 +2,9 @@ module EnumI18nHelp
   module EnumI18n
     def enum(definitions)
       super(definitions)
-      definitions.each do |key, value|
+      defined_enums.each_pair do |key, value|
         EnumAttribute.define_text_method!(self, key)
-        EnumAttribute.define_options_method!(self, key, value)
+        EnumAttribute.define_options_method!(self, key, value.symbolize_keys) # value must be dupped! symbolize_keys do so.
       end
     end
   end
@@ -20,6 +20,7 @@ module EnumI18nHelp
         METHOD
       end
 
+      # This method assume attr_value is a stringify hash
       def define_options_method!(klass, attr_name, attr_value)
         attr_value_hash = attr_value.keys.map { |key| [key, key.to_s.humanize] }.to_h
 
