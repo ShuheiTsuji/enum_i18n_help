@@ -4,10 +4,14 @@ module EnumI18nHelp
       super(definitions)
       # super has defined enum.
       # So defined_enums are available!
-      # Use only definitions which is defined this call in defined_enums
+      #
+      # To avoid defining methods multiple times,
+      # slices hash to get enums called this time.
+      #
+      # Be careful not to destroy defined_enum, such as using merge!
       defined_enums.slice(*definitions.keys.map(&:to_s)).each_pair do |key, value|
         EnumAttribute.define_text_method!(self, key)
-        EnumAttribute.define_options_method!(self, key, value.symbolize_keys) # value must be dupped! symbolize_keys do so.
+        EnumAttribute.define_options_method!(self, key, value.symbolize_keys)
       end
     end
   end
