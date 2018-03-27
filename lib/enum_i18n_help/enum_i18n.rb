@@ -2,9 +2,16 @@ module EnumI18nHelp
   module EnumI18n
     def enum(definitions)
       super(definitions)
-      definitions.each do |key, value|
+      # super has defined enum.
+      # So defined_enums are available!
+      #
+      # To avoid defining methods multiple times,
+      # slices hash to get enums called this time.
+      #
+      # Be careful not to destroy defined_enum, such as using merge!
+      defined_enums.slice(*definitions.keys.map(&:to_s)).each_pair do |key, value|
         EnumAttribute.define_text_method!(self, key)
-        EnumAttribute.define_options_method!(self, key, value)
+        EnumAttribute.define_options_method!(self, key, value.symbolize_keys)
       end
     end
   end
@@ -20,6 +27,7 @@ module EnumI18nHelp
         METHOD
       end
 
+      # This method assume that attr_value is a symbolized hash
       def define_options_method!(klass, attr_name, attr_value)
         attr_value_hash = attr_value.keys.map { |key| [key, key.to_s.humanize] }.to_h
 

@@ -5,10 +5,37 @@ class User < ActiveRecord::Base
   enum sex: { man: 0, woman: 1, nothing: 2 }
 end
 
+class Article < ActiveRecord::Base
+  include EnumI18nHelp::EnumI18n
+  enum status: %i[draft published archived deleted]
+end
+
 RSpec.describe EnumI18nHelp::EnumI18n do
-  let(:user) { User.create(sex: sex) }
-  let(:sex) { 'man' }
+  describe '#enum' do
+    context 'With hash definitions' do
+      it 'responds defined text method' do
+        expect(User.new).to respond_to("sex_text")
+      end
+
+      it 'responds defined options method' do
+        expect(User).to respond_to("sex_options")
+      end
+    end
+
+    context 'With array definitions' do
+      it 'responds defined text method' do
+        expect(Article.new).to respond_to("status_text")
+      end
+
+      it 'responds defined options method' do
+        expect(Article).to respond_to("status_options")
+      end
+    end
+  end
+
   describe '#enum_key_text' do
+    let(:user) { User.create(sex: sex) }
+    let(:sex) { 'man' }
 
     subject { user.sex_text }
 
