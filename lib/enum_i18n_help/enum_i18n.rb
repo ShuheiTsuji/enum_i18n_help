@@ -4,7 +4,8 @@ module EnumI18nHelp
       super(definitions)
       # super has defined enum.
       # So defined_enums are available!
-      defined_enums.each_pair do |key, value|
+      # Use only definitions which is defined this call in defined_enums
+      defined_enums.slice(*definitions.keys.map(&:to_s)).each_pair do |key, value|
         EnumAttribute.define_text_method!(self, key)
         EnumAttribute.define_options_method!(self, key, value.symbolize_keys) # value must be dupped! symbolize_keys do so.
       end
