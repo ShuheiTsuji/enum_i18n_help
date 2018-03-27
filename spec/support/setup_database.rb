@@ -8,6 +8,12 @@ class CreateAllTables < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    create_table :articles do |t|
+      t.integer :status, null: false, limit: 2
+
+      t.timestamps
+    end
   end
 end
 
