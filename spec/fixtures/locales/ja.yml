@@ -5,3 +5,4 @@ ja:
         man: 男性
         woman: 女性
         nothing:
+        ghost_enum_key: User modelのenum定義に存在しないキー
