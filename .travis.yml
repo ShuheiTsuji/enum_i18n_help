@@ -4,6 +4,6 @@ rvm:
   - 2.4.3
   - 2.5.0
 before_install:
-  - gem update --system
+  - gem update --system 2.7.10
   - gem install bundler -v 2.1.4
 cache: bundler
