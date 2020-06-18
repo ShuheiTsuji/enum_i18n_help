@@ -90,6 +90,7 @@ RSpec.describe EnumI18nHelp::EnumI18n do
 
       it { expect(I18n.locale).to eq :ja }
       it { is_expected.to eq [["男性", :man], ["女性", :woman], ["Nothing", :nothing]] }
+      it { is_expected.not_to include ['ghost_enum_key', 'User modelのenum定義に存在しないキー'] }
     end
 
     context 'lang is en' do
@@ -97,6 +98,7 @@ RSpec.describe EnumI18nHelp::EnumI18n do
 
       it { expect(I18n.locale).to eq :en }
       it { is_expected.to eq [["Man", :man], ["Woman", :woman], ["Nothing", :nothing]] }
+      it { is_expected.not_to include ['ghost_enum_key', 'This key does not exist in User model\'s enum definition'] }
     end
   end
 end

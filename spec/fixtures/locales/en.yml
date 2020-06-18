@@ -4,4 +4,5 @@ en:
       user/sex:
         man: Man
         woman: Woman
-        none:
+        nothing:
+        ghost_enum_key: This key does not exist in User model's enum definition
