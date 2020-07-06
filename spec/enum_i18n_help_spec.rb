@@ -3,6 +3,7 @@ require 'spec_helper'
 class User < ActiveRecord::Base
   include EnumI18nHelp::EnumI18n
   enum sex: { man: 0, woman: 1, nothing: 2 }
+  enum job: %i[engineer designer journalist]
 end
 
 class Article < ActiveRecord::Base
@@ -34,50 +35,90 @@ RSpec.describe EnumI18nHelp::EnumI18n do
   end
 
   describe '#enum_key_text' do
-    let(:user) { User.create(sex: sex) }
-    let(:sex) { 'man' }
+    describe 'user.sex' do
+      let(:user) { User.create(sex: sex) }
+      let(:sex) { 'man' }
 
-    subject { user.sex_text }
+      subject { user.sex_text }
 
-    context 'lang is ja' do
-      before { I18n.locale = :ja }
+      context 'lang is ja' do
+        before { I18n.locale = :ja }
 
-      it { expect(I18n.locale).to eq :ja }
+        it { expect(I18n.locale).to eq :ja }
 
-      context 'sex is man' do
-        let(:sex) { 'man' }
-        it { is_expected.to eq '男性' }
+        context 'sex is man' do
+          let(:sex) { 'man' }
+          it { is_expected.to eq '男性' }
+        end
+
+        context 'sex is woman' do
+          let(:sex) { 'woman' }
+          it { is_expected.to eq '女性' }
+        end
+
+        context 'do not have translated words' do
+          let(:sex) { 'nothing' }
+          it { is_expected.to eq 'Nothing' }
+        end
       end
 
-      context 'sex is woman' do
-        let(:sex) { 'woman' }
-        it { is_expected.to eq '女性' }
-      end
+      context 'lang is en' do
+        before { I18n.locale = :en }
 
-      context 'do not have translated words' do
-        let(:sex) { 'nothing' }
-        it { is_expected.to eq 'Nothing' }
+        it { expect(I18n.locale).to eq :en }
+
+        context 'sex is man' do
+          let(:sex) { 'man' }
+          it { is_expected.to eq 'Man' }
+        end
+
+        context 'sex is woman' do
+          let(:sex) { 'woman' }
+          it { is_expected.to eq 'Woman' }
+        end
+
+        context 'do not have translated words' do
+          let(:sex) { 'nothing' }
+          it { is_expected.to eq 'Nothing' }
+        end
       end
     end
 
-    context 'lang is en' do
-      before { I18n.locale = :en }
+    describe 'user.job' do
+      let(:user) { User.create(sex: 'man', job: job) }
 
-      it { expect(I18n.locale).to eq :en }
+      subject { user.job_text }
 
-      context 'sex is man' do
-        let(:sex) { 'man' }
-        it { is_expected.to eq 'Man' }
+      context 'lang is ja' do
+        before { I18n.locale = :ja }
+
+        it { expect(I18n.locale).to eq :ja }
+
+        context 'job is engineer' do
+          let(:job) { 'engineer' }
+          it { is_expected.to eq 'エンジニア' }
+        end
+
+        context 'job is nil' do
+          let(:job) { nil }
+          it { is_expected.to eq nil }
+        end
       end
 
-      context 'sex is woman' do
-        let(:sex) { 'woman' }
-        it { is_expected.to eq 'Woman' }
-      end
+      context 'lang is en' do
+        before { I18n.locale = :en }
 
-      context 'do not have translated words' do
-        let(:sex) { 'nothing' }
-        it { is_expected.to eq 'Nothing' }
+        it { expect(I18n.locale).to eq :en }
+
+        context 'job is engineer' do
+          let(:job) { 'engineer' }
+          it { is_expected.to eq 'Engineer' }
+        end
+
+        context 'job is nil' do
+          let(:job) { nil }
+          it { is_expected.to eq nil }
+        end
       end
     end
   end

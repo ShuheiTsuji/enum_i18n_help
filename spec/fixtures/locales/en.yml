@@ -6,3 +6,7 @@ en:
         woman: Woman
         nothing:
         ghost_enum_key: This key does not exist in User model's enum definition
+      user/job:
+        engineer: Engineer
+        designer: Designer
+        journalist: Journalist
