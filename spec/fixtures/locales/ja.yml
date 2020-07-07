@@ -6,3 +6,7 @@ ja:
         woman: 女性
         nothing:
         ghost_enum_key: User modelのenum定義に存在しないキー
+      user/job:
+        engineer: エンジニア
+        designer: デザイナー
+        journalist: ジャーナリスト

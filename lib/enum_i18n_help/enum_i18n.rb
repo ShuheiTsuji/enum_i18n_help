@@ -22,6 +22,8 @@ module EnumI18nHelp
       def define_text_method!(klass, enum_key)
         klass.class_eval <<-METHOD, __FILE__, __LINE__ + 1
         def #{enum_key}_text
+          return if #{enum_key}.nil?
+
           I18n.t "activerecord.attributes.#{klass.name.underscore}/#{enum_key}." + #{enum_key}, default: #{enum_key}.humanize
         end
         METHOD
